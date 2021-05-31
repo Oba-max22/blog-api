@@ -62,7 +62,6 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-            userRepository.delete(user.get());
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MINUTE, 5);
             String presentDate = DateFor.format(calendar.getTime());

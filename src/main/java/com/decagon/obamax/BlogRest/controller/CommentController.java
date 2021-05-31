@@ -64,12 +64,8 @@ public class CommentController {
                                            @Valid @RequestBody Comment commentRequest, HttpSession session) {
         userService.checkUserExists(userId);
         postService.checkPostExists(postId);
-        if (userService.getUser(userId).get() == session.getAttribute("currentUser")) {
-            Comment updatedComment = commentService.editComment(commentId, commentRequest);
-            return new ResponseEntity<>(updatedComment, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(new ApiResponse(false, "You cannot edit user with id " + userId + " comment."), HttpStatus.BAD_REQUEST);
-        }
+        Comment updatedComment = commentService.editComment(commentId, commentRequest);
+        return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}/posts/{postId}/comments/{commentId}")
@@ -78,11 +74,7 @@ public class CommentController {
                                         @PathVariable Long commentId, HttpSession session) {
         userService.checkUserExists(userId);
         postService.checkPostExists(postId);
-        if (userService.getUser(userId).get() == session.getAttribute("currentUser")) {
-            return commentService.deleteComment(commentId);
-        } else {
-            return new ResponseEntity<>(new ApiResponse(false, "You cannot delete this Comment."), HttpStatus.BAD_REQUEST);
-        }
+        return commentService.deleteComment(commentId);
     }
 
     @GetMapping("/users/{userId}/posts/{postId}/comments/{commentId}/commentLikes")

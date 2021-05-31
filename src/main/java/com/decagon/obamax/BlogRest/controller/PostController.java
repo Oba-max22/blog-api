@@ -47,14 +47,10 @@ public class PostController {
     @PutMapping("/users/{userId}/posts/{postId}")
     public ResponseEntity<?> updatePost(@PathVariable Long userId,
                            @PathVariable Long postId,
-                           @Valid @RequestBody Post postRequest, HttpSession session) {
+                           @Valid @RequestBody Post postRequest) {
         userService.checkUserExists(userId);
-        if (userService.getUser(userId).get() == session.getAttribute("currentUser")) {
-            Post updatedPost = postService.editPost(postId, postRequest);
-            return new ResponseEntity<>(updatedPost, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(new ApiResponse(false, "You cannot edit user with id " + userId + " post."), HttpStatus.BAD_REQUEST);
-        }
+        Post updatedPost = postService.editPost(postId, postRequest);
+        return new ResponseEntity<>(updatedPost, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}/posts/{postId}")

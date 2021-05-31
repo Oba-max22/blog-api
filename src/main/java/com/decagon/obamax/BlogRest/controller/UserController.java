@@ -1,6 +1,5 @@
 package com.decagon.obamax.BlogRest.controller;
 
-import com.decagon.obamax.BlogRest.exception.ResourceNotFoundException;
 import com.decagon.obamax.BlogRest.model.User;
 import com.decagon.obamax.BlogRest.response.ApiResponse;
 import com.decagon.obamax.BlogRest.service.serviceImpl.UserServiceImpl;
@@ -72,8 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}/followers")
-    public List<User> getConnections(HttpSession session, @PathVariable Long userId) {
-        User follower = (User) session.getAttribute("currentUser");
+    public List<User> getConnections(@PathVariable Long userId) {
         Optional<User> user = userService.getUser(userId);
         return user.get().getFollowers();
     }

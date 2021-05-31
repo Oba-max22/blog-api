@@ -2,6 +2,7 @@ package com.decagon.obamax.BlogRest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
@@ -51,6 +52,8 @@ public class User extends AuditModel {
     private String deleteDate;
 
     @OneToMany(mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private List<Favorites> FavoritesList;
 
     @ManyToMany(fetch = FetchType.LAZY)
